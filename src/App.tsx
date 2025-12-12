@@ -3,6 +3,7 @@ import ParticlesBackground from "./components/main/ParticlesBackground";
 import "./App.css"; 
 import Home from "./components/index";
 import Navbar from "./components/main/NavBar";
+import Skills from "./components/skills/skills";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Navbar/>
         <Routes>
           <Route path="/" element={<Home/>} />
-          <Route path="/about" element={<h1 className="text-4xl font-bold">Página Sobre Mí</h1>} />
+          <Route path="/about" element={<Skills/>} />
         </Routes>
       </div>
     </div>

@@ -1,0 +1,108 @@
+// src/data/ProjectData.ts (o donde sea que guardes tus datos)
+
+import { type Project } from "../types/interface-project"; // 👈 Asegúrate de ajustar la ruta
+
+export const projects: Project[] = [
+  // --- PROYECTOS DESTACADOS (isFeatured: true) ---
+  {
+    id: 1,
+    title: "Netflix Clone",
+    description: "Replica completa de Netflix con streaming de video, perfiles de usuario y sistema de recomendaciones.",
+    image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&h=400&fit=crop",
+    technologies: ["React", "Node.js", "MongoDB", "Firebase", "Yo solo"],
+    category: "Streaming Platform",
+    isFeatured: true,
+  },
+  {
+    id: 2,
+    title: "Spotify Dashboard",
+    description: "Dashboard interactivo para análisis musical con visualizaciones de datos y playlists personalizadas.",
+    image: "https://images.unsplash.com/photo-1611339555312-e607c8352fd7?w=600&h=400&fit=crop",
+    technologies: ["Next.js", "TypeScript", "Spotify API", "Chart.js"],
+    category: "Music Analytics",
+    isFeatured: true,
+  },
+  {
+    id: 3,
+    title: "E-Banking App",
+    description: "Aplicación bancaria moderna con transferencias, análisis de gastos y gestión de tarjetas.",
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit-crop",
+    technologies: ["React Native", "Node.js", "PostgreSQL", "Stripe"],
+    category: "Fintech",
+    isFeatured: true,
+  },
+  {
+    id: 4,
+    title: "Social Media Platform",
+    description: "Red social completa con posts, stories, mensajería en tiempo real y sistema de notificaciones.",
+    image: "https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?w=600&h=400&fit-crop",
+    technologies: ["Vue.js", "Socket.io", "Redis", "AWS"],
+    category: "Social Network",
+    isFeatured: true,
+  },
+  {
+    id: 5,
+    title: "AI SaaS Platform",
+    description: "Plataforma SaaS con inteligencia artificial para automatización de procesos empresariales.",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit-crop",
+    technologies: ["Python", "TensorFlow", "FastAPI", "Docker"],
+    category: "AI/ML",
+    isFeatured: true,
+  },
+  {
+    id: 6,
+    title: "Crypto Exchange",
+    description: "Exchange de criptomonedas con trading en tiempo real, wallets y análisis de mercado.",
+    image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=600&h=400&fit-crop",
+    technologies: ["React", "Web3", "Solidity", "GraphQL"],
+    category: "Blockchain",
+    isFeatured: true,
+  },
+
+  // --- PROYECTOS NO DESTACADOS (isFeatured: false) ---
+  {
+    id: 7,
+    title: "Portfolio Dinámico",
+    description: "Mi portafolio personal, construido con tecnologías modernas y enfoque en la experiencia de usuario.",
+    image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=600&h=400&fit-crop",
+    technologies: ["Next.js", "Tailwind CSS", "Vercel", "GSAP"],
+    category: "Web Development",
+    isFeatured: false,
+  },
+  {
+    id: 8,
+    title: "Gestor de Tareas",
+    description: "Una aplicación de productividad para organizar tareas, con integración de calendario y notificaciones.",
+    image: "https://images.unsplash.com/photo-1549419163-f277150a8cc7?w=600&h=400&fit-crop",
+    technologies: ["React", "Redux", "Express", "SQLite"],
+    category: "Productivity Tool",
+    isFeatured: false,
+  },
+  {
+    id: 9,
+    title: "Sistema de Reservas",
+    description: "Plataforma para que negocios de servicios gestionen citas y reservas en línea.",
+    image: "https://images.unsplash.com/photo-1524147776483-e1858c7e6c0a?w=600&h=400&fit-crop",
+    technologies: ["Django", "Python", "React", "AWS"],
+    category: "Booking System",
+    isFeatured: false,
+  },
+  {
+    id: 10,
+    title: "Tienda de Ropa Online",
+    description: "E-commerce con carrito de compras, gestión de inventario y pasarela de pago (Stripe).",
+    image: "https://images.unsplash.com/photo-1555529669-22697525354e?w=600&h=400&fit-crop",
+    technologies: ["Shopify API", "Next.js", "Apollo Client", "GraphQL"],
+    category: "E-commerce",
+    isFeatured: false,
+  },
+  {
+    id: 11,
+    title: "Visualizador de Datos (COVID-19)",
+    description: "Panel interactivo para visualizar y analizar datos de salud pública en tiempo real.",
+    image: "https://images.unsplash.com/photo-1633519106067-1234c8a248f2?w=600&h=400&fit-crop",
+    technologies: ["D3.js", "React", "Python", "Pandas"],
+    category: "Data Visualization",
+    isFeatured: false,
+  },
+];

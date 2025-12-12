@@ -1,114 +1,56 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import ProjectCard from "../cards/ProjectCard"; // 👈 Ajusta la ruta según tu estructura
 
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  technologies: string[];
-  category: string;
-}
+// 👈 Importaciones actualizadas
+import ProjectCard from "../cards/ProjectCard"; 
+import { type Project } from "../types/interface-project"; // 👈 Importar la interfaz
+import { projects as allProjects } from "../data/ProjectData"; // 👈 Importar los datos
 
 const ProjectCarousel: React.FC = () => {
+  // 1. Filtrar solo los proyectos destacados
+  const projects: Project[] = allProjects.filter(p => p.isFeatured); 
+  
+  // 💡 NOTA: Si projects.length es 0, el carrusel se mostrará vacío.
+  // Podrías añadir una comprobación aquí: if (projects.length === 0) return null;
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
-  // Inicializamos el estado de slides a mostrar
   const [slidesToShow, setSlidesToShow] = useState(3);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Datos de ejemplo (sin cambios)
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: "Netflix Clone",
-      description: "Replica completa de Netflix con streaming de video, perfiles de usuario y sistema de recomendaciones.",
-      image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&h=400&fit=crop",
-      technologies: ["React", "Node.js", "MongoDB", "Firebase", "Yo solo"],
-      category: "Streaming Platform"
-    },
-    {
-      id: 2,
-      title: "Spotify Dashboard",
-      description: "Dashboard interactivo para análisis musical con visualizaciones de datos y playlists personalizadas.",
-      image: "https://images.unsplash.com/photo-1611339555312-e607c8352fd7?w=600&h=400&fit=crop",
-      technologies: ["Next.js", "TypeScript", "Spotify API", "Chart.js"],
-      category: "Music Analytics"
-    },
-    {
-      id: 3,
-      title: "E-Banking App",
-      description: "Aplicación bancaria moderna con transferencias, análisis de gastos y gestión de tarjetas.",
-      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
-      technologies: ["React Native", "Node.js", "PostgreSQL", "Stripe"],
-      category: "Fintech"
-    },
-    {
-      id: 4,
-      title: "Social Media Platform",
-      description: "Red social completa con posts, stories, mensajería en tiempo real y sistema de notificaciones.",
-      image: "https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?w=600&h=400&fit=crop",
-      technologies: ["Vue.js", "Socket.io", "Redis", "AWS"],
-      category: "Social Network"
-    },
-    {
-      id: 5,
-      title: "AI SaaS Platform",
-      description: "Plataforma SaaS con inteligencia artificial para automatización de procesos empresariales.",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
-      technologies: ["Python", "TensorFlow", "FastAPI", "Docker"],
-      category: "AI/ML"
-    },
-    {
-      id: 6,
-      title: "Crypto Exchange",
-      description: "Exchange de criptomonedas con trading en tiempo real, wallets y análisis de mercado.",
-      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=600&h=400&fit-crop",
-      technologies: ["React", "Web3", "Solidity", "GraphQL"],
-      category: "Blockchain"
-    }
-  ];
-
-
-  // 1. Lógica de Responsividad (NUEVA)
+  // Lógica de Responsividad (sin cambios funcionales, solo usa el estado filtrado)
   useEffect(() => {
     const handleResize = () => {
-      // Si la ventana es pequeña (menor a 640px)
-      if (window.innerWidth < 640) { 
-        setSlidesToShow(1); // Muestra 1 proyecto
-      // Si la ventana es mediana (entre 640px y 1024px)
-      } else if (window.innerWidth < 1024) { 
-        setSlidesToShow(2); // Muestra 2 proyectos
+      if (window.innerWidth < 640) {
+        setSlidesToShow(1);
+      } else if (window.innerWidth < 1024) {
+        setSlidesToShow(2);
       } else {
-        setSlidesToShow(3); // Muestra 3 proyectos
+        setSlidesToShow(3);
       }
     };
 
-    // 1. Establecer el valor inicial
     handleResize();
-    // 2. Escuchar cambios en el tamaño de la ventana
     window.addEventListener('resize', handleResize);
 
-    // Limpiar el event listener cuando el componente se desmonte
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
 
-  // 2. Auto-play optimizado (sin cambios)
+  // Auto-play optimizado (sin cambios funcionales)
   useEffect(() => {
-    if (!isAutoPlaying || !isVisible) return;
+    if (!isAutoPlaying || !isVisible || projects.length <= 1) return; // Añadida comprobación de length > 1
 
     const interval = window.setInterval(() => {
+      // Ajuste para el nuevo array filtrado
       setCurrentIndex((prev) => (prev >= projects.length - 1 ? 0 : prev + 1));
     }, 8000);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, isVisible, projects.length]);
 
-  // 3. Detectar visibilidad del carrusel (sin cambios)
+  // Detectar visibilidad del carrusel (sin cambios)
   useEffect(() => {
     if (!carouselRef.current) return;
 
@@ -121,8 +63,10 @@ const ProjectCarousel: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Navegación del carrusel (sin cambios)
+  // Navegación del carrusel (sin cambios funcionales)
   const navigate = (direction: 'prev' | 'next' | number) => {
+    if (projects.length === 0) return; // No navegar si no hay proyectos
+    
     if (typeof direction === 'number') {
       setCurrentIndex(direction);
     } else {
@@ -131,11 +75,19 @@ const ProjectCarousel: React.FC = () => {
         return prev >= projects.length - 1 ? 0 : prev + 1;
       });
     }
-    
-    // Pausar auto-play temporalmente después de interacción
+
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 8000);
   };
+  
+  // Si no hay proyectos destacados, podrías mostrar un mensaje
+  if (projects.length === 0) {
+      return (
+          <div className="text-center p-8 text-gray-500">
+              No hay proyectos destacados para mostrar en este momento.
+          </div>
+      );
+  }
 
   return (
     <div
@@ -145,20 +97,34 @@ const ProjectCarousel: React.FC = () => {
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       <div className="relative">
-        {/* Botones de navegación (sin cambios) */}
-        <button
-          onClick={() => navigate('prev')}
-          className="cursor-pointer absolute left-2 sm:left-4 lg:-left-10 xl:-left-16 top-1/2 -translate-y-1/2 z-10 backdrop-blur-md bg-white/10 border border-white/20 rounded-full p-2 sm:p-3 xl:p-4 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
-          aria-label="Proyecto anterior"
-        >
-          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 xl:w-6 xl:h-6 text-white drop-shadow-lg" />
-        </button>
+        {/* Botones de navegación */}
+        {/* Los botones solo se muestran si hay más proyectos de los que caben en la vista actual o si se quiere ver el ciclo completo */}
+        {projects.length > slidesToShow && (
+          <>
+            <button
+              onClick={() => navigate('prev')}
+              className="cursor-pointer absolute left-2 sm:left-4 lg:-left-10 xl:-left-16 top-1/2 -translate-y-1/2 z-10 backdrop-blur-md bg-white/10 border border-white/20 rounded-full p-2 sm:p-3 xl:p-4 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
+              aria-label="Proyecto anterior"
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 xl:w-6 xl:h-6 text-white drop-shadow-lg" />
+            </button>
+          
+            <button
+              onClick={() => navigate('next')}
+              className="cursor-pointer absolute right-2 sm:right-4 lg:-right-10 xl:-right-16 top-1/2 -translate-y-1/2 z-10 backdrop-blur-md bg-white/10 border border-white/20 rounded-full p-2 sm:p-3 xl:p-4 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
+              aria-label="Siguiente proyecto"
+            >
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 xl:w-6 xl:h-6 text-white drop-shadow-lg" />
+            </button>
+          </>
+        )}
 
-        {/* Contenedor principal del carousel (sin cambios) */}
+        {/* Contenedor principal del carousel */}
         <div className="overflow-hidden rounded-2xl">
           <div
             className="flex transition-transform duration-500 ease-out gap-4 sm:gap-6 lg:gap-8"
             style={{ 
+              // Ajuste para el nuevo array filtrado
               transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)`,
               willChange: 'transform'
             }}
@@ -166,9 +132,8 @@ const ProjectCarousel: React.FC = () => {
             {projects.map((project) => (
               <div
                 key={project.id}
-                // La magia responsive ocurre aquí, ajustando el ancho basado en slidesToShow
                 className={`flex-shrink-0 group`}
-                style={{ flexBasis: `calc(${100 / slidesToShow}% - ${(slidesToShow - 1) * 8 / slidesToShow}px)` }} // Ajuste para el gap de 8px (sm:gap-6 lg:gap-8)
+                style={{ flexBasis: `calc(${100 / slidesToShow}% - ${(slidesToShow - 1) * 8 / slidesToShow}px)` }} 
               >
                 <ProjectCard project={project} />
               </div>
@@ -176,16 +141,9 @@ const ProjectCarousel: React.FC = () => {
           </div>
         </div>
 
-        <button
-          onClick={() => navigate('next')}
-          className="cursor-pointer absolute right-2 sm:right-4 lg:-right-10 xl:-right-16 top-1/2 -translate-y-1/2 z-10 backdrop-blur-md bg-white/10 border border-white/20 rounded-full p-2 sm:p-3 xl:p-4 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
-          aria-label="Siguiente proyecto"
-        >
-          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 xl:w-6 xl:h-6 text-white drop-shadow-lg" />
-        </button>
       </div>
 
-      {/* Indicadores modernos (sin cambios) */}
+      {/* Indicadores modernos */}
       <div className="flex justify-center mt-6 sm:mt-8 space-x-2 sm:space-x-3">
         {projects.map((_, index) => (
           <button
