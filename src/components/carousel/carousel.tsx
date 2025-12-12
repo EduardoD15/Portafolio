@@ -16,10 +16,11 @@ const ProjectCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  // Inicializamos el estado de slides a mostrar
   const [slidesToShow, setSlidesToShow] = useState(3);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Datos de ejemplo
+  // Datos de ejemplo (sin cambios)
   const projects: Project[] = [
     {
       id: 1,
@@ -65,14 +66,38 @@ const ProjectCarousel: React.FC = () => {
       id: 6,
       title: "Crypto Exchange",
       description: "Exchange de criptomonedas con trading en tiempo real, wallets y análisis de mercado.",
-      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=600&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=600&h=400&fit-crop",
       technologies: ["React", "Web3", "Solidity", "GraphQL"],
       category: "Blockchain"
     }
   ];
 
 
-  // Auto-play optimizado
+  // 1. Lógica de Responsividad (NUEVA)
+  useEffect(() => {
+    const handleResize = () => {
+      // Si la ventana es pequeña (menor a 640px)
+      if (window.innerWidth < 640) { 
+        setSlidesToShow(1); // Muestra 1 proyecto
+      // Si la ventana es mediana (entre 640px y 1024px)
+      } else if (window.innerWidth < 1024) { 
+        setSlidesToShow(2); // Muestra 2 proyectos
+      } else {
+        setSlidesToShow(3); // Muestra 3 proyectos
+      }
+    };
+
+    // 1. Establecer el valor inicial
+    handleResize();
+    // 2. Escuchar cambios en el tamaño de la ventana
+    window.addEventListener('resize', handleResize);
+
+    // Limpiar el event listener cuando el componente se desmonte
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+
+  // 2. Auto-play optimizado (sin cambios)
   useEffect(() => {
     if (!isAutoPlaying || !isVisible) return;
 
@@ -83,7 +108,7 @@ const ProjectCarousel: React.FC = () => {
     return () => clearInterval(interval);
   }, [isAutoPlaying, isVisible, projects.length]);
 
-  // Detectar visibilidad del carrusel (Intersection Observer)
+  // 3. Detectar visibilidad del carrusel (sin cambios)
   useEffect(() => {
     if (!carouselRef.current) return;
 
@@ -96,7 +121,7 @@ const ProjectCarousel: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Navegación del carrusel
+  // Navegación del carrusel (sin cambios)
   const navigate = (direction: 'prev' | 'next' | number) => {
     if (typeof direction === 'number') {
       setCurrentIndex(direction);
@@ -120,7 +145,7 @@ const ProjectCarousel: React.FC = () => {
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       <div className="relative">
-        {/* Botones de navegación */}
+        {/* Botones de navegación (sin cambios) */}
         <button
           onClick={() => navigate('prev')}
           className="cursor-pointer absolute left-2 sm:left-4 lg:-left-10 xl:-left-16 top-1/2 -translate-y-1/2 z-10 backdrop-blur-md bg-white/10 border border-white/20 rounded-full p-2 sm:p-3 xl:p-4 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -129,7 +154,7 @@ const ProjectCarousel: React.FC = () => {
           <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 xl:w-6 xl:h-6 text-white drop-shadow-lg" />
         </button>
 
-        {/* Contenedor principal del carousel */}
+        {/* Contenedor principal del carousel (sin cambios) */}
         <div className="overflow-hidden rounded-2xl">
           <div
             className="flex transition-transform duration-500 ease-out gap-4 sm:gap-6 lg:gap-8"
@@ -141,13 +166,9 @@ const ProjectCarousel: React.FC = () => {
             {projects.map((project) => (
               <div
                 key={project.id}
-                className={`flex-shrink-0 group ${
-                  slidesToShow === 1 ? 'w-full' : 
-                  slidesToShow === 2 ? 'w-1/2' : 
-                  slidesToShow === 3 ? 'w-1/3' :
-                  'w-1/4'
-                }`}
-                style={{ flexBasis: `${100 / slidesToShow}%` }}
+                // La magia responsive ocurre aquí, ajustando el ancho basado en slidesToShow
+                className={`flex-shrink-0 group`}
+                style={{ flexBasis: `calc(${100 / slidesToShow}% - ${(slidesToShow - 1) * 8 / slidesToShow}px)` }} // Ajuste para el gap de 8px (sm:gap-6 lg:gap-8)
               >
                 <ProjectCard project={project} />
               </div>
@@ -164,7 +185,7 @@ const ProjectCarousel: React.FC = () => {
         </button>
       </div>
 
-      {/* Indicadores modernos */}
+      {/* Indicadores modernos (sin cambios) */}
       <div className="flex justify-center mt-6 sm:mt-8 space-x-2 sm:space-x-3">
         {projects.map((_, index) => (
           <button
