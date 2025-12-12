@@ -71,26 +71,6 @@ const ProjectCarousel: React.FC = () => {
     }
   ];
 
-const singleProject = projects.find(p => p.id === 1);
-  // Detectar tamaño de pantalla para slides responsivos
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 640) {
-        setSlidesToShow(1);
-      } else if (width < 1024) {
-        setSlidesToShow(2);
-      } else if (width < 1536) {
-        setSlidesToShow(3);
-      } else {
-        setSlidesToShow(4);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   // Auto-play optimizado
   useEffect(() => {
