@@ -1,17 +1,11 @@
 import React from 'react';
 import { ExternalLink, Github } from 'lucide-react';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  technologies: string[];
-  category: string;
-}
+import { type Project } from "../types/interface-project"; // 👈 Importar interfaz
 
 interface ProjectCardProps {
   project: Project;
+  imageHeight?: string; // Altura personalizada de la imagen (ej: "h-32", "h-48")
+  imageWidth?: string;  // Ancho personalizado de la imagen (ej: "w-full", "w-64")
 }
 
 const getTechColor = (tech: string): string => {
@@ -43,11 +37,12 @@ const getTechColor = (tech: string): string => {
   return colors[tech] || 'bg-slate-600 text-white';
 };
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, imageHeight = "h-48 sm:h-56 lg:h-64",
+  imageWidth = "w-full" }) => {
   return (
-    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl backdrop-blur-lg bg-gradient-to-br from-purple-500/10 via-indigo-500/10 to-violet-500/10 border border-purple-400/30 transition-all duration-500 h-full">
+    <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl backdrop-blur-lg bg-gradient-to-br from-purple-500/10 via-indigo-500/10 to-violet-500/10 border border-purple-400/30 transition-all duration-500 h-full">
       {/* Imagen con overlay gradient */}
-      <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
+      <div className={`relative overflow-hidden ${imageHeight} ${imageWidth}`}>
         <img
           src={project.image}
           alt={project.title}

@@ -1,6 +1,7 @@
 import Carousel from "../carousel/carousel";
 import Skill from "../skills/skills";
 import Header from "../main/header";
+import Projects from "../projects/ProjectsFilterPage";
 
 export default function Home() {
     return (
@@ -18,6 +19,10 @@ export default function Home() {
 
                 <article className="m-auto mt-[70px] w-[95%] mb-[50px] max-w-screen-2xl">
                    <Skill />
+                </article>
+
+                <article className="">
+                    <Projects/>
                 </article>
             </main>
         </div>
