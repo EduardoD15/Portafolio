@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Filter } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 
 import ProjectCard from "../cards/ProjectCard";
 import { projects as allProjects } from "../data/ProjectData";
-import FilterModal from "../modal/filterModal"; // Ajusta la ruta según donde guardaste el modal
+import FilterModal from "../modal/filterModal";
 
 const ProjectsFilterPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -11,7 +11,6 @@ const ProjectsFilterPage: React.FC = () => {
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Extraer categorías y tecnologías únicas
   const allCategories = useMemo(() => {
     return Array.from(new Set(allProjects.map(p => p.category))).sort();
   }, []);
@@ -22,7 +21,6 @@ const ProjectsFilterPage: React.FC = () => {
     return Array.from(techs).sort();
   }, []);
 
-  // Filtrar proyectos
   const filteredProjects = useMemo(() => {
     return allProjects.filter(project => {
       const matchesSearch = 
@@ -40,7 +38,6 @@ const ProjectsFilterPage: React.FC = () => {
     });
   }, [searchQuery, selectedCategories, selectedTechnologies]);
 
-  // Handlers para filtros
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
       prev.includes(category)
@@ -84,7 +81,6 @@ const ProjectsFilterPage: React.FC = () => {
         {/* Barra de búsqueda y botón de filtros */}
         <div className="mb-4 lg:mb-6">
           <div className="flex gap-3">
-            {/* Búsqueda */}
             <div className="relative flex-1">
               <input
                 type="text"
@@ -95,7 +91,6 @@ const ProjectsFilterPage: React.FC = () => {
               />
             </div>
 
-            {/* Botón de filtros */}
             <button
               onClick={() => setIsModalOpen(true)}
               className="flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition-colors whitespace-nowrap"
@@ -105,6 +100,43 @@ const ProjectsFilterPage: React.FC = () => {
             </button>
           </div>
         </div>
+
+        {/* Chips de filtros activos */}
+        {activeFiltersCount > 0 && (
+          <div className="mb-6 flex flex-wrap items-center gap-2">
+            <span className="text-slate-400 text-sm font-medium">Filtros activos:</span>
+            
+            {selectedCategories.map(category => (
+              <button
+                key={category}
+                onClick={() => toggleCategory(category)}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white rounded-full text-sm font-medium hover:bg-purple-700 transition-colors"
+              >
+                {category}
+                <X className="w-4 h-4" />
+              </button>
+            ))}
+
+            {selectedTechnologies.map(tech => (
+              <button
+                key={tech}
+                onClick={() => toggleTechnology(tech)}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-full text-sm font-medium hover:bg-indigo-700 transition-colors"
+              >
+                {tech}
+                <X className="w-4 h-4" />
+              </button>
+            ))}
+
+            <button
+              onClick={clearAllFilters}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-700 text-white rounded-full text-sm font-medium hover:bg-slate-600 transition-colors ml-2"
+            >
+              Limpiar todos
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         {/* Contador de resultados */}
         <div className="mb-6 text-slate-400 text-sm">
