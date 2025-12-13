@@ -17,7 +17,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill }) => {
   
   return (
     <li className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-all border border-white/10">
-      <Icon className={`text-4xl md:text-6xl ${skill.color} flex-shrink-0`} />
+      <Icon className={`text-4xl md:text-6xl ${skill.color} `} />
       <div>
         <h3 className="text-sm md:text-lg font-bold text-white">{skill.name}</h3>
         <p className="text-xs md:text-sm text-purple-400">{skill.level}</p>

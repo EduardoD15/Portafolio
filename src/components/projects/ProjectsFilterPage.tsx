@@ -1,15 +1,15 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, X } from 'lucide-react';
+import { Filter } from 'lucide-react';
 
 import ProjectCard from "../cards/ProjectCard";
 import { projects as allProjects } from "../data/ProjectData";
+import FilterModal from "../modal/filterModal"; // Ajusta la ruta según donde guardaste el modal
 
 const ProjectsFilterPage: React.FC = () => {
-  const [searchTitle, setSearchTitle] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
-  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Extraer categorías y tecnologías únicas
   const allCategories = useMemo(() => {
@@ -25,8 +25,10 @@ const ProjectsFilterPage: React.FC = () => {
   // Filtrar proyectos
   const filteredProjects = useMemo(() => {
     return allProjects.filter(project => {
-      const matchesTitle = project.title.toLowerCase().includes(searchTitle.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchTitle.toLowerCase());
+      const matchesSearch = 
+        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.technologies.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase()));
 
       const matchesCategory = selectedCategories.length === 0 ||
         selectedCategories.includes(project.category);
@@ -34,11 +36,9 @@ const ProjectsFilterPage: React.FC = () => {
       const matchesTechnology = selectedTechnologies.length === 0 ||
         selectedTechnologies.some(tech => project.technologies.includes(tech));
 
-      const matchesFeatured = !showFeaturedOnly || project.isFeatured;
-
-      return matchesTitle && matchesCategory && matchesTechnology && matchesFeatured;
+      return matchesSearch && matchesCategory && matchesTechnology;
     });
-  }, [searchTitle, selectedCategories, selectedTechnologies, showFeaturedOnly]);
+  }, [searchQuery, selectedCategories, selectedTechnologies]);
 
   // Handlers para filtros
   const toggleCategory = (category: string) => {
@@ -58,13 +58,12 @@ const ProjectsFilterPage: React.FC = () => {
   };
 
   const clearAllFilters = () => {
-    setSearchTitle('');
+    setSearchQuery('');
     setSelectedCategories([]);
     setSelectedTechnologies([]);
-    setShowFeaturedOnly(false);
   };
 
-  const activeFiltersCount = selectedCategories.length + selectedTechnologies.length + (showFeaturedOnly ? 1 : 0);
+  const activeFiltersCount = selectedCategories.length + selectedTechnologies.length;
 
   return (
     <div className="">
@@ -82,97 +81,28 @@ const ProjectsFilterPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Barra de búsqueda y filtros */}
-        <div className="mb-4 lg:mb-6 space-y-4">
-          <div className="flex flex-col sm:flex-row gap-3">
-            {/* Búsqueda por título */}
+        {/* Barra de búsqueda y botón de filtros */}
+        <div className="mb-4 lg:mb-6">
+          <div className="flex gap-3">
+            {/* Búsqueda */}
             <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
-                placeholder="Buscar por título o descripción..."
-                value={searchTitle}
-                onChange={(e) => setSearchTitle(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 focus:outline-none focus:border-violet-700 transition-colors"
+                placeholder="Buscar por título, categoría o tecnología..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 focus:outline-none focus:border-violet-700 transition-colors"
               />
             </div>
 
-            {/* Botón de filtros (móvil) */}
+            {/* Botón de filtros */}
             <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="sm:hidden flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition-colors"
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition-colors whitespace-nowrap"
             >
               <Filter className="w-5 h-5" />
               Filtros {activeFiltersCount > 0 && `(${activeFiltersCount})`}
             </button>
-          </div>
-
-          {/* Panel de filtros */}
-          <div className={`${showFilters ? 'block' : 'hidden'} sm:block rounded-lg bg-white/5 border border-white/10  p-4 lg:p-6 space-y-6`}>
-
-            {/* Destacados */}
-            <div>
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={showFeaturedOnly}
-                  onChange={(e) => setShowFeaturedOnly(e.target.checked)}
-                  className="w-5 h-5 rounded border-slate-600 bg-slate-700 text-purple-600 focus:ring-2 focus:ring-purple-500"
-                />
-                <span className="text-sm font-medium group-hover:text-purple-300 transition-colors">
-                  Solo proyectos destacados
-                </span>
-              </label>
-            </div>
-
-            {/* Categorías */}
-            <div>
-              <h3 className="text-sm font-semibold mb-3 text-slate-300">Categorías</h3>
-              <div className="flex flex-wrap gap-2">
-                {allCategories.map(category => (
-                  <button
-                    key={category}
-                    onClick={() => toggleCategory(category)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${selectedCategories.includes(category)
-                        ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/50'
-                        : 'bg-slate-800 text-white hover:bg-slate-600'
-                      }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Tecnologías */}
-            <div>
-              <h3 className="text-sm font-semibold mb-3 text-slate-300">Tecnologías</h3>
-              <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
-                {allTechnologies.map(tech => (
-                  <button
-                    key={tech}
-                    onClick={() => toggleTechnology(tech)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${selectedTechnologies.includes(tech)
-                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/50'
-                        : 'bg-slate-800 text-white hover:bg-slate-600'
-                      }`}
-                  >
-                    {tech}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Limpiar filtros */}
-            {activeFiltersCount > 0 && (
-              <button
-                onClick={clearAllFilters}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition-colors"
-              >
-                <X className="w-4 h-4" />
-                Limpiar filtros ({activeFiltersCount})
-              </button>
-            )}
           </div>
         </div>
 
@@ -201,6 +131,20 @@ const ProjectsFilterPage: React.FC = () => {
             </button>
           </div>
         )}
+
+        {/* Modal de filtros */}
+        <FilterModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          allCategories={allCategories}
+          allTechnologies={allTechnologies}
+          selectedCategories={selectedCategories}
+          selectedTechnologies={selectedTechnologies}
+          onToggleCategory={toggleCategory}
+          onToggleTechnology={toggleTechnology}
+          onClearFilters={clearAllFilters}
+          activeFiltersCount={activeFiltersCount}
+        />
       </div>
     </div>
   );
