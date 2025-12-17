@@ -68,7 +68,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
                 onClick={onClose}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               >
-                <X className="w-5 h-5 text-slate-400" />
+                <X className="cursor-pointer w-5 h-5 text-slate-400" />
               </button>
             </div>
 
@@ -105,7 +105,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
                       <button
                         key={category}
                         onClick={() => onToggleCategory(category)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                        className={`cursor-pointer px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                           selectedCategories.includes(category)
                             ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/50'
                             : 'bg-slate-800 text-white hover:bg-slate-600'
@@ -150,7 +150,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
                       <button
                         key={tech}
                         onClick={() => onToggleTechnology(tech)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                        className={`cursor-pointer px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                           selectedTechnologies.includes(tech)
                             ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/50'
                             : 'bg-slate-800 text-white hover:bg-slate-600'
@@ -176,7 +176,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
                     setTechnologySearch('');
                     onClose();
                   }}
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition-colors"
+                  className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition-colors"
                 >
                   <X className="w-4 h-4" />
                   Limpiar filtros ({activeFiltersCount})
@@ -184,7 +184,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
               )}
               <button
                 onClick={onClose}
-                className="ml-auto px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
+                className="cursor-pointer ml-auto px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl font-semibold transition-all hover:scale-105 shadow-[0_0_6px_#4338ca]"
               >
                 Aplicar filtros
               </button>

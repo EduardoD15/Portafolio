@@ -2,6 +2,7 @@ import Carousel from "../carousel/carousel";
 import Skill from "../skills/skills";
 import Header from "../main/header";
 import Projects from "../projects/ProjectsFilterPage";
+import Experience from "../experience/experience";
 
 export default function Home() {
     return (
@@ -24,6 +25,10 @@ export default function Home() {
                 <article className="">
                     <Projects/>
                 </article>
+                <div className="m-auto mt-[20px] w-[95%] mb-[50px] max-w-screen-2xl">
+                    <Experience/>
+                </div>
+
             </main>
         </div>
     );

@@ -5,7 +5,7 @@ import { TbBrain, TbTarget, TbBulb, TbUsers, TbRocket, TbMoodHappy, TbHeartHands
 import { DiVisualstudio, DiMsqlServer } from "react-icons/di";
 
 import { BiLogoVisualStudio } from "react-icons/bi";
-import SkillCard, { type SkillItemData } from "../items/skillCard";
+import SkillCard, { type SkillItemData } from "../cards/skillCard";
 
 type SkillCategory = 'Front-End' | 'Back-End' | 'Herramientas' | 'Habilidades';
 

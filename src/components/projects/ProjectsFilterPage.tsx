@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Filter, X } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Filter, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 import ProjectCard from "../cards/ProjectCard";
 import { projects as allProjects } from "../data/ProjectData";
@@ -10,6 +10,29 @@ const ProjectsFilterPage: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(12);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+
+  // Detectar tamaño de pantalla y ajustar items por página
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      let items = 8; // Desktop
+
+      if (width < 640) {
+        items = 5; // Móvil
+      } else if (width < 1024) {
+        items = 8; // Tablet
+      }
+
+      setItemsPerPage(items);
+      setVisibleCount(items);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const allCategories = useMemo(() => {
     return Array.from(new Set(allProjects.map(p => p.category))).sort();
@@ -23,7 +46,7 @@ const ProjectsFilterPage: React.FC = () => {
 
   const filteredProjects = useMemo(() => {
     return allProjects.filter(project => {
-      const matchesSearch = 
+      const matchesSearch =
         project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.technologies.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -37,6 +60,25 @@ const ProjectsFilterPage: React.FC = () => {
       return matchesSearch && matchesCategory && matchesTechnology;
     });
   }, [searchQuery, selectedCategories, selectedTechnologies]);
+
+  // Resetear visibleCount cuando cambien los filtros
+  useEffect(() => {
+    setVisibleCount(itemsPerPage);
+  }, [searchQuery, selectedCategories, selectedTechnologies, itemsPerPage]);
+
+  const visibleProjects = filteredProjects.slice(0, visibleCount);
+  const hasMoreProjects = filteredProjects.length > visibleCount;
+  const canShowLess = visibleCount > itemsPerPage;
+
+  const loadMore = () => {
+    setVisibleCount(prev => prev + itemsPerPage);
+  };
+
+  const showLess = () => {
+    setVisibleCount(prev => Math.max(itemsPerPage, prev - itemsPerPage));
+    // Scroll suave hacia arriba
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -80,8 +122,11 @@ const ProjectsFilterPage: React.FC = () => {
 
         {/* Barra de búsqueda y botón de filtros */}
         <div className="mb-4 lg:mb-6">
-          <div className="flex gap-3">
-            <div className="relative flex-1">
+          {/* Modificado para ser flex-col (apilado) por defecto y md:flex-row (en fila) en pantallas medianas+ */}
+          <div className="flex flex-col md:flex-row gap-3">
+
+            {/* Contenedor del Input: Ocupa todo el ancho en móvil, flex-1 en desktop */}
+            <div className="relative w-full md:flex-1">
               <input
                 type="text"
                 placeholder="Buscar por título, categoría o tecnología..."
@@ -91,9 +136,10 @@ const ProjectsFilterPage: React.FC = () => {
               />
             </div>
 
+            {/* Botón de Filtros: Ocupa todo el ancho en móvil, vuelve a su ancho de contenido en desktop */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition-colors whitespace-nowrap"
+              className="cursor-pointer flex items-center justify-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-700 rounded-xl font-semibold transition-all hover:scale-105 shadow-[0_0_6px_#4338ca] w-full md:w-auto md:whitespace-nowrap"
             >
               <Filter className="w-5 h-5" />
               Filtros {activeFiltersCount > 0 && `(${activeFiltersCount})`}
@@ -105,7 +151,7 @@ const ProjectsFilterPage: React.FC = () => {
         {activeFiltersCount > 0 && (
           <div className="mb-6 flex flex-wrap items-center gap-2">
             <span className="text-slate-400 text-sm font-medium">Filtros activos:</span>
-            
+
             {selectedCategories.map(category => (
               <button
                 key={category}
@@ -140,16 +186,43 @@ const ProjectsFilterPage: React.FC = () => {
 
         {/* Contador de resultados */}
         <div className="mb-6 text-slate-400 text-sm">
-          Mostrando {filteredProjects.length} de {allProjects.length} proyectos
+          Mostrando {visibleProjects.length} de {filteredProjects.length} proyectos
         </div>
 
         {/* Grid de proyectos */}
         {filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-5">
-            {filteredProjects.map(project => (
-              <ProjectCard key={project.id} project={project} imageHeight="h-28 sm:h-36 lg:h-44" />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-5">
+              {visibleProjects.map(project => (
+                <ProjectCard key={project.id} project={project} imageHeight="h-28 sm:h-36 lg:h-44" />
+              ))}
+            </div>
+
+            {/* Botones Ver más / Ver menos */}
+            {(hasMoreProjects || canShowLess) && (
+              <div className=" flex justify-center items-center gap-4 mt-8">
+                {canShowLess && (
+                  <button
+                    onClick={showLess}
+                    className="cursor-pointer flex items-center gap-2 px-8 py-3 bg-indigo-700 hover:bg-indigo-600 shadow-[0_0_6px_#4338ca] rounded-xl font-semibold transition-all hover:scale-105"
+                  >
+                    <ChevronUp className="w-5 h-5" />
+                    Ver menos
+                  </button>
+                )}
+
+                {hasMoreProjects && (
+                  <button
+                    onClick={loadMore}
+                    className="cursor-pointer flex items-center gap-2 px-8 py-3 bg-violet-600 hover:bg-violet-700 rounded-xl font-semibold transition-all hover:scale-105 shadow-[0_0_6px_#4338ca]"
+                  >
+                    Ver más proyectos
+                    <ChevronDown className="w-5 h-5" />
+                  </button>
+                )}
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center py-16">
             <div className="text-slate-400 text-lg mb-4">
