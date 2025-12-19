@@ -120,7 +120,7 @@ const Experience: React.FC = () => {
   const Icon = activeTab === 'Educación' ? FaGraduationCap : FaBriefcase;
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="px-4">
       <div className="max-w-7xl mx-auto">
         <header>
           <h1 className="text-white font-bold text-center text-3xl md:text-4xl mt-[10px]">
@@ -148,7 +148,7 @@ const Experience: React.FC = () => {
             {/* Timeline Container */}
             <div className="relative">
               {/* Línea vertical central */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-purple-600 via-indigo-600 to-purple-600 shadow-[0_0_10px_#8e44ad] hidden md:block"></div>
+              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-purple-600 via-indigo-600 to-purple-600 shadow-[0_0_8px_#8e44ad] hidden md:block"></div>
 
               {/* Timeline Items */}
               <div className="space-y-12 md:space-y-16">
@@ -234,7 +234,7 @@ const Experience: React.FC = () => {
 
                             {/* Punto central */}
                             <div className="relative flex justify-start">
-                              <div className="absolute left-0 transform -translate-x-1/2 bg-purple-600 border-4 border-slate-900 rounded-full p-4 shadow-[0_0_20px_#8e44ad] z-10">
+                              <div className="absolute left-0 transform -translate-x-1/2 bg-purple-600 border-4 border-slate-900 rounded-full p-4 shadow-[0_0_7px_#8e44ad] z-10">
                                 <Icon className="text-2xl text-white" />
                               </div>
                             </div>
@@ -243,7 +243,7 @@ const Experience: React.FC = () => {
                           <>
                             {/* Punto central */}
                             <div className="relative flex justify-end">
-                              <div className="absolute right-0 transform translate-x-1/2 bg-indigo-600 border-4 border-slate-900 rounded-full p-4 shadow-[0_0_20px_#4338ca] z-10">
+                              <div className="absolute right-0 transform translate-x-1/2 bg-indigo-600 border-4 border-slate-900 rounded-full p-4 shadow-[0_0_7px_#4338ca] z-10">
                                 <Icon className="text-2xl text-white" />
                               </div>
                             </div>

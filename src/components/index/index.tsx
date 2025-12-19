@@ -3,6 +3,7 @@ import Skill from "../skills/skills";
 import Header from "../main/header";
 import Projects from "../projects/ProjectsFilterPage";
 import Experience from "../experience/experience";
+import AboutMe from "../about/aboutMe";
 
 export default function Home() {
     return (
@@ -27,6 +28,9 @@ export default function Home() {
                 </article>
                 <div className="m-auto mt-[20px] w-[95%] mb-[50px] max-w-screen-2xl">
                     <Experience/>
+                </div>
+                <div className="m-auto mt-[20px] w-[95%] mb-[50px] max-w-screen-2xl">
+                    <AboutMe />
                 </div>
 
             </main>
