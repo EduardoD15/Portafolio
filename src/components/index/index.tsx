@@ -4,6 +4,7 @@ import Header from "../main/header";
 import Projects from "../projects/ProjectsFilterPage";
 import Experience from "../experience/experience";
 import AboutMe from "../about/aboutMe";
+import Footer from "../main/footer";
 
 export default function Home() {
     return (
@@ -31,6 +32,9 @@ export default function Home() {
                 </div>
                 <div className="m-auto mt-[20px] w-[95%] mb-[50px] max-w-screen-2xl">
                     <AboutMe />
+                </div>
+                <div>
+                    <Footer />
                 </div>
 
             </main>
