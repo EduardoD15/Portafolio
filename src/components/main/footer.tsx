@@ -1,5 +1,4 @@
-import React from "react";
-import { FaInstagram, FaWhatsapp, FaGithub, FaLinkedin, FaEnvelope, FaHeart } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp, FaGithub, FaLinkedin, FaEnvelope} from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 
 
