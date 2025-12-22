@@ -66,14 +66,21 @@ export default function Header({ scrollToSectionId = 'Carousel' }: HeaderProps) 
         };
     }, [scrollToSectionId, viewportHeight]);
 
-    const handleArrowClick = () => {
+     const handleArrowClick = () => {
         // Desaparecer al hacer click
         setShowArrow(false);
 
-        // Desplazar a la sección objetivo
+        // Desplazar a la sección objetivo con offset para el nav
         const targetElement = document.getElementById(scrollToSectionId);
         if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
+            const navHeight = 95; // Altura del nav
+            const elementPosition = targetElement.offsetTop;
+            const offsetPosition = elementPosition - navHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
     };
 
