@@ -78,40 +78,41 @@ export default function Header({ scrollToSectionId = 'Carousel' }: HeaderProps) 
     };
 
     return (
-        <header className={`w-full ${viewportHeight < 710 && viewportWidth < 1110 ? 'h-auto' : 'h-screen'} flex items-center relative max-w-screen-2xl m-auto pt-[80px]`}>             <article className="w-[95%] m-auto">
-            <div className="flex gap-5 items-center w-[100%] justify-evenly max-[1300px]:flex-col max-[1300px]:gap-8">
-                <div className="w-[450px] h-[450px] bg-violet-950 rounded-full border-4 border-purple-600 shadow-[0_0_20px_#8e44ad] flex justify-center items-center max-[1300px]:w-[350px] max-[1300px]:h-[350px]">
-                    <img
-                        src="eduardo.webp"
-                        alt="Eduardo Deossa Bohorquez"
-                        className="bottom-15 relative w-[400px] max-[1300px]:w-[300px]"
-                    />
-                </div>
-                <div className="flex flex-col gap-2 max-[1300px]:text-center max-[1300px]:items-center">
-                    <h3 className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl xl:text-2xl font-medium text-white max-[1300px]:text-xl">
-                        Eduardo Deossa Bohorquez
-                    </h3>
-                    <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold text-white max-[1300px]:text-2xl">
-                        Desarrollador <span className="text-purple-600 [text-shadow:0_0_20px_rgba(142,68,173,0.4)]">Fullstack Web</span>
-                    </h2>
-                    <p className="max-w-[720px] text-lg sm:text-lg md:text-lg lg:text-lg xl:text-lg text-white max-[1300px]:text-base max-[1300px]:max-w-[90%]">
-                        Cuento con la capacidad de construir una página web desde cero, desarrollando tanto el frontend como el backend.
-                        En cuanto al diseño, puedo implementar sitios idénticos a los diseños entregados.
-                    </p>
+        <header className="w-full min-h-screen flex items-center relative max-w-screen-2xl m-auto py-20 px-4">
+            <article className="w-full m-auto">
+                <div className="flex gap-8 items-center w-full justify-evenly lg:flex-row flex-col">
+                    <div className="w-[450px] h-[450px] bg-violet-950 rounded-full border-4 border-purple-600 shadow-[0_0_20px_#8e44ad] flex justify-center items-center lg:w-[450px] lg:h-[450px] md:w-[380px] md:h-[380px] sm:w-[320px] sm:h-[320px] max-sm:w-[280px] max-sm:h-[280px]">
+                        <img
+                            src="eduardo.webp"
+                            alt="Eduardo Deossa Bohorquez"
+                            className="bottom-15 relative w-[400px] lg:w-[400px] md:w-[330px] sm:w-[270px] max-sm:w-[230px]"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-3 lg:text-left text-center lg:items-start items-center max-w-[720px]">
+                        <h3 className="text-2xl font-medium text-white lg:text-2xl md:text-xl sm:text-lg">
+                            Eduardo Deossa Bohorquez
+                        </h3>
+                        <h2 className="text-4xl font-bold text-white lg:text-4xl md:text-3xl sm:text-2xl max-sm:text-xl">
+                            Desarrollador <span className="text-purple-600 [text-shadow:0_0_20px_rgba(142,68,173,0.4)]">Fullstack Web</span>
+                        </h2>
+                        <p className="text-lg text-white lg:text-lg md:text-base sm:text-sm max-sm:text-sm max-sm:max-w-[90%]">
+                            Cuento con la capacidad de construir una página web desde cero, desarrollando tanto el frontend como el backend.
+                            En cuanto al diseño, puedo implementar sitios idénticos a los diseños entregados.
+                        </p>
 
-                    <div className="flex gap-5 max-[1300px]:justify-center">
-                        <button className="bg-purple-700 mt-[10px] cursor-pointer shadow-[0_0_6px_#9333ea] px-5 py-3 text-lg rounded-xl font-semibold flex justify-center items-center gap-3 hover:shadow-[0_0_25px_rgba(147,51,234,0.6)] transition-all duration-300 tracking-wide max-[1300px]:text-base max-[1300px]:px-4 max-[1300px]:py-2">
-                            <span className="text-white">CV</span>
-                            <FaDownload className="text-lg text-white" />
-                        </button>
-                        <button className="bg-indigo-700 shadow-[0_0_6px_#4338ca] mt-[10px] cursor-pointer px-5 py-3 text-lg rounded-xl font-semibold flex justify-center items-center gap-3 transition-all duration-300 tracking-wide hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] max-[1300px]:text-base max-[1300px]:px-4 max-[1300px]:py-2">
-                            <span className="text-white">Proyectos</span>
-                            <FaLaptopCode className="text-white text-lg" />
-                        </button>
+                        <div className="flex gap-5 flex-wrap justify-center lg:justify-start">
+                            <button className="bg-purple-700 mt-2 cursor-pointer shadow-[0_0_6px_#9333ea] px-5 py-3 text-lg rounded-xl font-semibold flex justify-center items-center gap-3 hover:shadow-[0_0_25px_rgba(147,51,234,0.6)] transition-all duration-300 tracking-wide md:text-base sm:text-sm max-sm:px-4 max-sm:py-2">
+                                <span className="text-white">CV</span>
+                                <FaDownload className="text-lg text-white" />
+                            </button>
+                            <button className="bg-indigo-700 shadow-[0_0_6px_#4338ca] mt-2 cursor-pointer px-5 py-3 text-lg rounded-xl font-semibold flex justify-center items-center gap-3 transition-all duration-300 tracking-wide hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] md:text-base sm:text-sm max-sm:px-4 max-sm:py-2">
+                                <span className="text-white">Proyectos</span>
+                                <FaLaptopCode className="text-white text-lg" />
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </article>
+            </article>
 
             {/* Flecha triple para scroll */}
             {showArrow && viewportHeight >= 810 && viewportWidth > 441 && (
