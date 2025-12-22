@@ -16,86 +16,85 @@ interface TimelineItem {
 const educationData: TimelineItem[] = [
   {
     id: 1,
-    title: "Ingeniería en Sistemas",
-    institution: "Universidad Nacional de Colombia",
+    title: "Media Técnica en Informática",
+    institution: "Colegio Empresarial / Unilasallista",
     location: "Medellín, Colombia",
-    period: "2018 - 2023",
-    description: "Formación integral en desarrollo de software, estructuras de datos, algoritmos y arquitectura de sistemas.",
+    period: "2020 - 2022",
+    description:
+      "Se inició con una base sólida en programación, donde el primer año se trabajó con C++ y el segundo año con Java.",
     achievements: [
-      "Proyecto final: Sistema de gestión educativa",
-      "Promedio: 4.2/5.0",
-      "Miembro del grupo de investigación en IA"
+      "Proyecto final: Sistema de gestión de inventarios",
+      "Rol: Líder del grupo",
+      "JavaScript, Node.js + Express, PostgreSQL"
     ]
   },
   {
     id: 2,
-    title: "Certificación Full Stack Development",
+    title: "Frontend Developer",
     institution: "Platzi",
     location: "Online",
-    period: "2022",
-    description: "Especialización en desarrollo web moderno con énfasis en tecnologías JavaScript y frameworks actuales.",
+    period: "2020 - 2024",
+    description:
+      "Especialización en desarrollo web moderno, con énfasis en tecnologías JavaScript y frameworks actuales.",
     achievements: [
-      "React, Node.js, MongoDB",
-      "Arquitectura de microservicios",
-      "Deployment en AWS"
+      "Angular, HTML, CSS, JavaScript",
+      "Tailwind CSS, Sass",
+      "Responsive Design"
     ]
   },
   {
     id: 3,
-    title: "Curso Avanzado de TypeScript",
-    institution: "Frontend Masters",
+    title: "Backend Developer",
+    institution: "Platzi",
     location: "Online",
-    period: "2023",
-    description: "Profundización en TypeScript, patrones de diseño y mejores prácticas para aplicaciones escalables.",
+    period: "2020 - 2024",
+    description:
+      "Especialización en desarrollo de APIs, arquitectura MVC y principios SOLID, junto con testing y administración de servidores.",
     achievements: [
-      "Tipos avanzados y generics",
-      "Integración con React",
-      "Testing con Jest y TypeScript"
+      ".NET Core, JavaScript",
+      "MySQL, MariaDB",
+      "Flujos CI/CD",
+      "Testing unitario con JUnit"
     ]
-  }
+  },
+  {
+    id: 4,
+    title: "Tecnólogo en Desarrollo de Software",
+    institution: "Institución Universitaria Pascual Bravo",
+    location: "Medellín, Colombia",
+    period: "2023 - 2025",
+    description:
+      "Formación en metodologías ágiles, estructuras de datos, seguridad informática y auditoría de sistemas, junto con el uso de lenguajes de programación empresariales y prácticas de testing.",
+    achievements: [
+      ".NET Core, C#, Python, Django",
+      "PostgreSQL, SQL Server",
+      "Angular, React, Windows Forms"
+    ]
+  },
+
 ];
+
 
 const workData: TimelineItem[] = [
   {
     id: 1,
     title: "Desarrollador Full Stack",
-    institution: "TechCorp Solutions",
-    location: "Medellín, Colombia",
-    period: "2023 - Presente",
-    description: "Desarrollo de aplicaciones web empresariales utilizando React, Node.js y PostgreSQL. Liderazgo de equipo de 3 desarrolladores junior.",
+    institution: "Elico Group",
+    location: "La Estrella, Antioquia, Colombia",
+    period: "2025",
+    description:
+      "Desarrollador Full Stack con enfoque en frontend. Creación de interfaces UX/UI con React y TypeScript, usando Tailwind CSS y Figma. Consumo de APIs REST y desarrollo backend con Python y Django.",
     achievements: [
-      "Migración de sistema legacy a arquitectura moderna",
-      "Reducción de tiempos de carga en 40%",
-      "Implementación de CI/CD con GitHub Actions"
-    ]
-  },
-  {
-    id: 2,
-    title: "Desarrollador Frontend",
-    institution: "Digital Innovations",
-    location: "Remote",
-    period: "2022 - 2023",
-    description: "Creación de interfaces de usuario responsivas y accesibles para plataformas e-commerce y landing pages corporativas.",
-    achievements: [
-      "Desarrollo de 15+ proyectos exitosos",
-      "Mejora de SEO y performance",
-      "Implementación de design systems"
-    ]
-  },
-  {
-    id: 3,
-    title: "Desarrollador Junior",
-    institution: "StartUp Labs",
-    location: "Medellín, Colombia",
-    period: "2021 - 2022",
-    description: "Primera experiencia profesional desarrollando funcionalidades para aplicaciones web y móviles con React y React Native.",
-    achievements: [
-      "Colaboración en equipo ágil",
-      "Desarrollo de componentes reutilizables",
-      "Integración con APIs REST"
+      "Frontend: React, TypeScript, Tailwind CSS",
+      "Backend: Python, Django, APIs REST",
+      "Base de datos: PostgreSQL",
+      "Integración con SAP usando Python y Visual Basic en Raspberry Pi (Servicio para Postobón)",
+      "Creación de bot de WhatsApp mediante API",
+      "Diseño e implementación de procesos ETL"
     ]
   }
 ];
+
 
 const Experience: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ExperienceCategory>('Educación');
@@ -127,7 +126,7 @@ const Experience: React.FC = () => {
             Mi Experiencia
           </h1>
           <hr className="w-24 border-t-4 shadow-[0_0_20px_#8e44ad] border-purple-600 mx-auto mt-2" />
-          
+
           <ul className="grid grid-cols-2 md:flex md:justify-center gap-4 md:gap-20 mt-6 w-full md:w-auto px-4">
             <li className="w-full md:w-auto" onClick={() => handleTabClick('Educación')}>
               <h2 className={getTabClasses('Educación')}>
@@ -154,7 +153,7 @@ const Experience: React.FC = () => {
               <div className="space-y-12 md:space-y-16">
                 {currentData.map((item, index) => {
                   const isLeft = index % 2 === 0;
-                  
+
                   return (
                     <div key={item.id} className="relative">
                       {/* Mobile Layout */}
@@ -169,7 +168,7 @@ const Experience: React.FC = () => {
                               <p className="text-sm text-purple-400 font-semibold">{item.institution}</p>
                             </div>
                           </div>
-                          
+
                           <div className="flex flex-wrap gap-3 mb-3 text-xs text-white/70">
                             <span className="flex items-center gap-1">
                               <FaCalendarAlt className="text-purple-400" />
@@ -180,9 +179,9 @@ const Experience: React.FC = () => {
                               {item.location}
                             </span>
                           </div>
-                          
+
                           <p className="text-sm text-white/80 mb-3">{item.description}</p>
-                          
+
                           {item.achievements && (
                             <ul className="space-y-1">
                               {item.achievements.map((achievement, i) => (
@@ -205,7 +204,7 @@ const Experience: React.FC = () => {
                               <div className="bg-gradient-to-br from-purple-500/10 via-indigo-500/10 to-violet-500/10 border border-purple-400/30 transition-all rounded-xl p-6  duration-300 hover:shadow-[0_0_25px_rgba(139,92,246,0.4)] backdrop-blur-sm hover:scale-105 transform">
                                 <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
                                 <p className="text-base text-purple-400 font-semibold mb-3">{item.institution}</p>
-                                
+
                                 <div className="flex flex-wrap gap-3 mb-3 text-sm text-white/70 justify-end">
                                   <span className="flex items-center gap-1">
                                     <FaCalendarAlt className="text-purple-400" />
@@ -216,9 +215,9 @@ const Experience: React.FC = () => {
                                     {item.location}
                                   </span>
                                 </div>
-                                
+
                                 <p className="text-sm text-white/80 mb-3">{item.description}</p>
-                                
+
                                 {item.achievements && (
                                   <ul className="space-y-2">
                                     {item.achievements.map((achievement, i) => (
@@ -253,7 +252,7 @@ const Experience: React.FC = () => {
                               <div className="bg-gradient-to-br from-indigo-500/10 via-indigo-500/10 to-indigo-500/10 border border-indigo-400/30 transition-all rounded-xl p-6 duration-300 hover:shadow-[0_0_25px_rgba(67,56,202,0.4)] backdrop-blur-sm hover:scale-105 transform">
                                 <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
                                 <p className="text-base text-indigo-400 font-semibold mb-3">{item.institution}</p>
-                                
+
                                 <div className="flex flex-wrap gap-3 mb-3 text-sm text-white/70">
                                   <span className="flex items-center gap-1">
                                     <FaCalendarAlt className="text-indigo-400" />
@@ -264,9 +263,9 @@ const Experience: React.FC = () => {
                                     {item.location}
                                   </span>
                                 </div>
-                                
+
                                 <p className="text-sm text-white/80 mb-3">{item.description}</p>
-                                
+
                                 {item.achievements && (
                                   <ul className="space-y-2">
                                     {item.achievements.map((achievement, i) => (
